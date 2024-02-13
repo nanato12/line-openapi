@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Webhook Type Definition
   description: "Webhook event definition of the LINE Messaging API"
-  version: 1.0.0
+  version: 1.0.1
 servers:
   # DUMMY
   - url: "https://example.com"
