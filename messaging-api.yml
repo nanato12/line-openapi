@@ -3611,6 +3611,8 @@ components:
           properties:
             mentionee:
               $ref: "#/components/schemas/MentionTarget"
+          required:
+            - mentionee
     MentionTarget:
       type: object
       properties:
@@ -3640,7 +3642,6 @@ components:
         url: "https://developers.line.biz/en/reference/messaging-api/#text-message-v2-mentionee-all"
       allOf:
         - $ref: "#/components/schemas/MentionTarget"
-        - type: object
     EmojiSubstitutionObject:
       externalDocs:
         url: "https://developers.line.biz/en/reference/messaging-api/#text-message-v2-emoji-object"
@@ -3653,6 +3654,9 @@ components:
               type: string
             emojiId:
               type: string
+          required:
+            - productId
+            - emojiId
     StickerMessage:
       externalDocs:
         url: https://developers.line.biz/en/reference/messaging-api/#sticker-message
