@@ -1738,25 +1738,6 @@ paths:
               schema:
                 "$ref": "#/components/schemas/ErrorResponse"
 
-  "/bot/ad/multicast/phone":
-    post:
-      externalDocs:
-        url: https://developers.line.biz/en/reference/partner-docs/#phone-audience-match
-      tags:
-        - messaging-api
-      operationId: audienceMatch
-      description: "Send a message using phone number"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              "$ref": "#/components/schemas/AudienceMatchMessagesRequest"
-        required: true
-      responses:
-        "200":
-          description: "OK"
-          # empty JSON response
-
   "/v2/bot/message/delivery/pnp":
     get:
       externalDocs:
@@ -1787,43 +1768,6 @@ paths:
               example:
                 status: ready
                 success: 3
-
-  "/v2/bot/message/delivery/ad_phone":
-    get:
-      externalDocs:
-        url: https://developers.line.biz/en/reference/partner-docs/#get-phone-audience-match
-      tags:
-        - messaging-api
-      operationId: getAdPhoneMessageStatistics
-      description: "Get result of message delivery using phone number"
-      parameters:
-        - name: date
-          in: query
-          required: true
-          schema:
-            type: string
-          description: |+
-            Date the message was sent
-
-            Format: `yyyyMMdd` (e.g. `20190831`)
-            Time Zone: UTC+9
-      responses:
-        "200":
-          description: "OK"
-          content:
-            "application/json":
-              schema:
-                "$ref": "#/components/schemas/NumberOfMessagesResponse"
-              examples:
-                READY:
-                  summary: "Example of response when status is `ready`"
-                  value:
-                    status: ready
-                    success: 10000
-                UNAVAILABLE_FOR_PRIVACY:
-                  summary: "Example response when status is `unavailable_for_privacy`"
-                  value:
-                    status: unavailable_for_privacy
 
   # Membership
   "/v2/bot/membership/subscription/{userId}":
@@ -2728,6 +2672,7 @@ components:
             `1`: An internal error occurred.
             `2`: An error occurred because there weren't enough recipients.
             `3`: A conflict error of requests occurs because a request that has already been accepted is retried.
+            `4`: An audience of less than 50 recipients is included as a condition of sending.
         acceptedTime:
           type: string
           format: date-time
@@ -3319,7 +3264,7 @@ components:
           unlink: "#/components/schemas/RichMenuBatchUnlinkOperation"
           unlinkAll: "#/components/schemas/RichMenuBatchUnlinkAllOperation"
     RichMenuBatchLinkOperation:
-      description: Replace the rich menu with the rich menu specified in the `to` property for all users linked to the rich menu specified in the `from` property.
+      description: "Replace the rich menu with the rich menu specified in the `to` property for all users linked to the rich menu specified in the `from` property."
       type: object
       required:
         - from
@@ -3333,7 +3278,7 @@ components:
             to:
               type: string
     RichMenuBatchUnlinkOperation:
-      description: Unlink the rich menu for all users linked to the rich menu specified in the `from` property.
+      description: "Unlink the rich menu for all users linked to the rich menu specified in the `from` property."
       type: object
       required:
         - from
@@ -3344,7 +3289,7 @@ components:
             from:
               type: string
     RichMenuBatchUnlinkAllOperation:
-      description: Unlink the rich menu from all users linked to the rich menu.
+      description: "Unlink the rich menu from all users linked to the rich menu."
       type: object
       allOf:
         - "$ref": "#/components/schemas/RichMenuBatchOperation"
@@ -3442,30 +3387,6 @@ components:
         to:
           type: string
           description: "Message destination. Specify a phone number that has been normalized to E.164 format and hashed with SHA256."
-        notificationDisabled:
-          "$ref": "#/components/schemas/NotificationDisabled"
-    AudienceMatchMessagesRequest:
-      externalDocs:
-        url: https://developers.line.biz/en/reference/partner-docs/#phone-audience-match
-      required:
-        - messages
-        - to
-      type: object
-      properties:
-        messages:
-          description: "Destination of the message (A value obtained by hashing the telephone number, which is another value normalized to E.164 format, with SHA256)."
-          maxItems: 5
-          minItems: 1
-          type: array
-          items:
-            "$ref": "#/components/schemas/Message"
-        to:
-          description: "Message to send."
-          maxItems: 500
-          minItems: 1
-          type: array
-          items:
-            type: string
         notificationDisabled:
           "$ref": "#/components/schemas/NotificationDisabled"
 
@@ -3583,7 +3504,7 @@ components:
               type: object
               additionalProperties:
                 $ref: "#/components/schemas/SubstitutionObject"
-              description: "A mapping that specifies substitutions for parts enclosed in {} within the 'text' field."
+              description: "A mapping that specifies substitutions for parts enclosed in {} within the `text` field."
             quoteToken:
               type: string
               description: "Quote token of the message you want to quote."
