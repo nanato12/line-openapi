@@ -26,8 +26,40 @@ If you have an interesting use case for these files or have a request, please cr
 |                          |                 |                                                                                           |                          |
 | webhook.yml              | 3.0.3           |                                                                                           | Webhook Event Objects    |
 
+## How to Contribute
+
+Thank you for your interest in contributing to the **line/line-openapi** repository!
+This project just publishes our public features as an OpenAPI schema to help developers easily access and integrate with them.
+Our employees mainly update the schema based on the latest features and changes in our APIs.
+
+Please note the following guidelines:
+
+1. **Pull Requests**  
+   We currently only accept Pull Requests from our employees.
+
+2. **Issues First**  
+   If you would like to propose a change, or discuss a problem, please open an issue first.
 
 ## Known issues
 
 - OpenAPI Generator can't generate Python client with Java 17+
   - https://github.com/OpenAPITools/openapi-generator/issues/13684
+
+## Usage
+
+You can launch the Swagger UI to browse the OpenAPI specs locally using Docker.
+First, make sure you have `docker-compose.yml` in this directory. Then run:
+
+```sh
+docker compose up
+```
+
+By default, the Swagger UI will be available at: [http://localhost:8080](http://localhost:8080)
+
+### Using Docker Command
+
+Alternatively, you can use the following Docker command:
+
+```sh
+docker run -p 8080:8080 -e PORT=8080 -e API_URL=/openapi/messaging-api.yml -v $(pwd):/usr/share/nginx/html/openapi swaggerapi/swagger-ui:latest
+```
