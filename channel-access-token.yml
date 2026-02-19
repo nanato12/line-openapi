@@ -2,7 +2,7 @@
 openapi: 3.0.0
 info:
   title: Channel Access Token API
-  version: "0.0.1"
+  version: "0.0.2"
   description:
     This document describes Channel Access Token API.
 
